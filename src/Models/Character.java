@@ -8,8 +8,11 @@ public abstract class Character {
     protected int life;
     protected int damage;
 
+    protected final int maxLife = 100;
+
     public Character(String name) {
         this.id = UUID.randomUUID();
         this.name = name;
+        this.life = maxLife;
     }
 }
