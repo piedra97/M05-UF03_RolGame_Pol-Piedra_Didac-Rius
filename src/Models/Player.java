@@ -14,12 +14,27 @@ public class Player extends Character implements IFight {
         return race;
     }
 
-    public void setRace(Race race) {
-        this.race = race;
+    public boolean setRace(String race) {
+        switch (race.toLowerCase()) {
+            case "human":
+                this.race = Race.Human;
+                return true;
+            case "elf":
+                this.race = Race.Elf;
+                return true;
+            case "dwarf":
+                this.race = Race.Dwarf;
+                return true;
+            default:
+                return false;
+        }
     }
 
-    public void move() {
-
+    public boolean move(int box) {
+        if(box % 2 == 0) {
+            return true;
+        }
+        return false;
     }
 
     public ProductToSell buy(String choice) {

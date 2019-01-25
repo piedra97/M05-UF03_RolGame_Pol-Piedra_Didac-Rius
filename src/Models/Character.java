@@ -15,4 +15,8 @@ public abstract class Character {
         this.name = name;
         this.life = maxLife;
     }
+
+    public String getName() {
+        return name;
+    }
 }

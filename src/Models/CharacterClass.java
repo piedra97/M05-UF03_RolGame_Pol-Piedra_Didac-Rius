@@ -5,13 +5,5 @@ public enum CharacterClass {
     Rogue,
     Mague;
 
-    private Weapon weapon;
-
-    public Weapon getWeapon() {
-        return weapon;
-    }
-
-    public void setWeapon(Weapon weapon) {
-        this.weapon = weapon;
-    }
+    public Weapon weapon;
 }
