@@ -9,18 +9,18 @@ public class Monster extends NPC implements IFight {
     }
 
     @Override
-    public void attack() {
-
+    public void attack(Character c) {
+        c.life = c.life - super.damage;
     }
 
     @Override
     public void defend() {
-
+        if (super.life != super.maxLife) super.life++;
     }
 
     @Override
     public boolean isDead() {
-        return false;
+        return super.life == 0;
     }
 
     @Override
