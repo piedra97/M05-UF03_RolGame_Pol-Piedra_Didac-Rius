@@ -19,23 +19,32 @@ public class Player extends Character implements IFight {
     }
 
     public void move() {
+
     }
 
-    public void buy(String choice) {
+    public ProductToSell buy(String choice) {
+        switch (choice) {
+            case "Heal":
+                return ProductToSell.HEAL;
+            case "Damage":
+                return ProductToSell.DAMAGE;
+            default:
+                return null;
+        }
     }
 
     @Override
-    public void attack() {
-
+    public void attack(Character c) {
+        c.life = c.life - super.damage;
     }
 
     @Override
     public void defend() {
-
+        if (super.life != super.maxLife) super.life++;
     }
 
     @Override
     public boolean isDead() {
-        return false;
+        return super.life == 0;
     }
 }
