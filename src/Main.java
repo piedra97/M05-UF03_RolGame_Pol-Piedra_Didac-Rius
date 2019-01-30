@@ -17,7 +17,7 @@ public class Main {
         Player player = null;
         NPC npc = null;
 
-        chooseName(player);
+        player = chooseName(player);
         chooseRace(player);
         chooseClass(player);
         chooseWeapon(player);
@@ -32,25 +32,69 @@ public class Main {
                 }
             }
             else {
-                findMerchant(player);
+                findMerchant(player, npc);
             }
         }
 
     }
 
-    private static void findMerchant(Player player) {
+    private static void findMerchant(Player player, NPC npc) {
+        Merchant merchant = (Merchant) NPCCollection.getCharacter("Merchant");
+        System.out.println(merchant.appear());
+        System.out.println("Choose your purchase:");
+        while (true) {
+            for (ProductToSell product: ProductToSell.values()) {
+                System.out.println(product.toString());
+            }
+            String product = read.nextLine();
+            if (!merchant.isBuyable(player.buy(product))) {
+                System.out.println("The product doesn't exist. Try again. \n");
+                continue;
+            }
+
+            if (product.toLowerCase().equals("heal")) {
+                player.addLife();
+                System.out.println(player.getName() + " has increased 38pts. Actually is " + player.getLife());
+            } else {
+                player.addDamage();
+                System.out.println(player.getName() + "Your damage has increased.");
+            }
+            break;
+        }
+
     }
 
     private static void fightWithMonster(Player player, NPC npc) {
         npc = NPCCollection.getCharacter("Monster");
+        if (npc == null) {
+            System.out.println("You won!");
+        }
+        System.out.println(npc.appear());
 
         int turn = 1;
 
         while (true) {
 
-            if (turn % 2 != 0) {
+            if (turn++ % 2 != 0) {
 
-                player.attack(npc);
+                while (true) {
+                    System.out.println("Is your turn. ¿Atack or defend? (A/D)");
+                    switch (read.nextLine().toLowerCase()) {
+                        case "a":
+                            player.attack(npc);
+                            System.out.println(npc.getName() + "'s life is " + npc.getLife());
+                            break;
+                        case "d":
+                            player.defend();
+                            System.out.println(player.getName() + "'s life has increased! His life is " + player.getLife());
+                            break;
+                        default:
+                            System.out.println("Invalid option.");
+                            continue;
+                    }
+                    break;
+                }
+
                 if (((Monster) npc).isDead()) {
                     System.out.println("You have killed " + npc.getName() + " monster!");
                     break;
@@ -58,6 +102,7 @@ public class Main {
 
             } else {
                 ((Monster) npc).attack(player);
+                System.out.println(player.getName() + "'s life is " + player.getLife());
                 if (player.isDead()) {
                     System.out.println("Monster " + npc.getName() + " has killed you!");
                     break;
@@ -95,9 +140,10 @@ public class Main {
         }
     }
 
-    private static void chooseName(Player player) {
+    private static Player chooseName(Player player) {
         System.out.print("Choose your player name: ");
-        player = new Player(read.nextLine());
+        return new Player(read.nextLine());
+
     }
 
     private static void chooseRace(Player player) {

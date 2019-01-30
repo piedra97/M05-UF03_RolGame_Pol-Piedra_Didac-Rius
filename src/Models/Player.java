@@ -2,12 +2,18 @@ package Models;
 
 import Models.Contracts.IFight;
 
+import java.util.Random;
+
 public class Player extends Character implements IFight {
+
+    private Random rand = new Random();
 
     private Race race;
 
     public Player(String name) {
+
         super(name);
+        super.damage = 10;
     }
 
     public Race getRace() {
@@ -38,10 +44,10 @@ public class Player extends Character implements IFight {
     }
 
     public ProductToSell buy(String choice) {
-        switch (choice) {
-            case "Heal":
+        switch (choice.toLowerCase()) {
+            case "heal":
                 return ProductToSell.HEAL;
-            case "Damage":
+            case "damage":
                 return ProductToSell.DAMAGE;
             default:
                 return null;
@@ -50,16 +56,20 @@ public class Player extends Character implements IFight {
 
     @Override
     public void attack(Character c) {
-        c.life = c.life - super.damage;
+        c.life = c.life - (super.damage + (rand.nextInt(20) + 10));;
     }
 
     @Override
     public void defend() {
-        if (super.life != super.maxLife) super.life++;
+        if (super.life <= super.maxLife) {
+            int heal = rand.nextInt(30) + 20;
+            super.life = (super.life + heal > 100) ? 100 : super.life + heal;
+        }
+
     }
 
     @Override
     public boolean isDead() {
-        return super.life == 0;
+        return super.life <= 0;
     }
 }

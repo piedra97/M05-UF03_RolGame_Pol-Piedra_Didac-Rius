@@ -1,5 +1,6 @@
 package Models;
 
+import java.util.Random;
 import java.util.UUID;
 
 public abstract class Character {
@@ -18,5 +19,17 @@ public abstract class Character {
 
     public String getName() {
         return name;
+    }
+
+    public int getLife() {
+        return life;
+    }
+
+    public void addLife() {
+        this.life += 50;
+    }
+
+    public void addDamage() {
+        this.damage += 6;
     }
 }
